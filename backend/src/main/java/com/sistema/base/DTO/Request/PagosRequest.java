@@ -1,42 +1,40 @@
-package com.sistema.base.model;
+package com.sistema.base.DTO.Request;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.sistema.base.model.Membresia;
 
-@Entity
-public class Pagos {
-    @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne
-    @JoinColumn(name = "socio_id")
-    private Socio socio;
-    @ManyToOne
-    @JoinColumn(name = "membresia_id")
+public class PagosRequest {
+    private Long socio_id;
+    private Long membresia_id;
     private Membresia membresia;
     private double monto;
     private String metodo_pago;
     private LocalDateTime fecha;
     private String referencia;
-    public Pagos() {
+    public PagosRequest() {
     }
-    public Long getId() {
-        return id;
+    public PagosRequest(Long socio_id, Long membresia_id, Membresia membresia, double monto, String metodo_pago,
+            LocalDateTime fecha, String referencia) {
+        this.socio_id = socio_id;
+        this.membresia_id = membresia_id;
+        this.membresia = membresia;
+        this.monto = monto;
+        this.metodo_pago = metodo_pago;
+        this.fecha = fecha;
+        this.referencia = referencia;
     }
-    public void setId(Long id) {
-        this.id = id;
+    public Long getSocio_id() {
+        return socio_id;
     }
-    public Socio getSocio() {
-        return socio;
+    public void setSocio_id(Long socio_id) {
+        this.socio_id = socio_id;
     }
-    public void setSocio(Socio socio) {
-        this.socio = socio;
+    public Long getMembresia_id() {
+        return membresia_id;
+    }
+    public void setMembresia_id(Long membresia_id) {
+        this.membresia_id = membresia_id;
     }
     public Membresia getMembresia() {
         return membresia;

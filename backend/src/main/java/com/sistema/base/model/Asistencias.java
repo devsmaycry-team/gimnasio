@@ -1,6 +1,5 @@
 package com.sistema.base.model;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +17,7 @@ public class Asistencias {
     @JoinColumn(name = "socio_id")
     private Socio socio;
     private String tipo; //esto se refiere si ingreso o se fue
-    private LocalDate fecha_hora;
+    private LocalDateTime fecha_hora;
     public Asistencias() {
     }
     public Long getId() {
@@ -39,10 +38,10 @@ public class Asistencias {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    public LocalDate getFecha_hora() {
+    public LocalDateTime  getFecha_hora() {
         return fecha_hora;
     }
-    public void setFecha_hora(LocalDate fecha_hora) {
+    public void setFecha_hora(LocalDateTime  fecha_hora) {
         this.fecha_hora = fecha_hora;
     }
 

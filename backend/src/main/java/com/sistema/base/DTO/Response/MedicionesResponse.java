@@ -1,38 +1,38 @@
-package com.sistema.base.model;
+package com.sistema.base.DTO.Response;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
-@Entity
-public class Mediciones {
-    @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne
-    @JoinColumn(name = "socio_id")
-    private Socio socio;
+public class MedicionesResponse {
+    private long id;
+    private Long socio_id;
     private LocalDateTime fecha;
     private Double peso;
     private Double grasa_corporal;
     private Double pecho;
     private Double brazos;
-    public Long getId() {
+    public MedicionesResponse() {
+    }
+    public MedicionesResponse(long id, Long socio_id, LocalDateTime fecha, Double peso, Double grasa_corporal,
+            Double pecho, Double brazos) {
+        this.id = id;
+        this.socio_id = socio_id;
+        this.fecha = fecha;
+        this.peso = peso;
+        this.grasa_corporal = grasa_corporal;
+        this.pecho = pecho;
+        this.brazos = brazos;
+    }
+    public long getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
-    public Socio getSocio() {
-        return socio;
+    public Long getSocio_id() {
+        return socio_id;
     }
-    public void setSocio(Socio socio) {
-        this.socio = socio;
+    public void setSocio_id(Long socio_id) {
+        this.socio_id = socio_id;
     }
     public LocalDateTime getFecha() {
         return fecha;

@@ -1,6 +1,6 @@
 package com.sistema.base.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -24,8 +24,8 @@ public class Membresia {
     private Plan plan;
     @OneToMany(mappedBy = "membresia", cascade = CascadeType.ALL)
     private List<Pagos> pagos;
-    private LocalDate fecha_inicio;
-    private LocalDate fecha_fin;
+    private LocalDateTime fecha_inicio;
+    private LocalDateTime fecha_fin;
     private boolean estado;
     public Membresia() {
     }
@@ -36,16 +36,16 @@ public class Membresia {
         this.id = id;
     }
 
-    public LocalDate getFecha_inicio() {
+    public LocalDateTime getFecha_inicio() {
         return fecha_inicio;
     }
-    public void setFecha_inicio(LocalDate fecha_inicio) {
+    public void setFecha_inicio(LocalDateTime fecha_inicio) {
         this.fecha_inicio = fecha_inicio;
     }
-    public LocalDate getFecha_fin() {
+    public LocalDateTime getFecha_fin() {
         return fecha_fin;
     }
-    public void setFecha_fin(LocalDate fecha_fin) {
+    public void setFecha_fin(LocalDateTime fecha_fin) {
         this.fecha_fin = fecha_fin;
     }
     public boolean isEstado() {
