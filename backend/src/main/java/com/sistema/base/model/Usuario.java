@@ -32,7 +32,10 @@ public class Usuario {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonBackReference("UserRol-user")
     private List<UserRol> userRols = new ArrayList<>();
- 
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Socio> socios;
+    
     public Usuario(){
 
     }
