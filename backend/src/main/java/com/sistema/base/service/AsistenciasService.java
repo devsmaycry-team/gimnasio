@@ -6,7 +6,7 @@ import com.sistema.base.DTO.Request.AsistenciaRequest;
 import com.sistema.base.DTO.Response.AsistenciaResponse;
 
 public interface AsistenciasService {
-    List<AsistenciaResponse> obtenertodos();
+    List<AsistenciaResponse> obtenerTodos();
     AsistenciaResponse obtenerPorId(Long id);
     AsistenciaResponse guardar(AsistenciaRequest producto);
     void eliminar(Long id);
