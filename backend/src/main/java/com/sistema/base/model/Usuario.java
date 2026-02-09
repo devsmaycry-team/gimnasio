@@ -1,5 +1,6 @@
 package com.sistema.base.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,10 @@ public class Usuario {
 	private String password;
     private Boolean activo = false;
     private String verificationToken; 
+    private String resetPasswordToken;
+    private LocalDateTime resetPasswordTokenExpira;
 
+    private LocalDateTime verificationTokenExpira;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonBackReference("UserRol-user")
     private List<UserRol> userRols = new ArrayList<>();
@@ -40,6 +44,7 @@ public class Usuario {
 
     }
 
+
     public Long getId() {
         return id;
     }
@@ -47,6 +52,7 @@ public class Usuario {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public Persona getPersona() {
         return persona;
@@ -96,5 +102,36 @@ public class Usuario {
         this.verificationToken = verificationToken;
     }
 
+    public LocalDateTime getVerificationTokenExpira() {
+        return verificationTokenExpira;
+    }
+
+    public void setVerificationTokenExpira(LocalDateTime verificationTokenExpira) {
+        this.verificationTokenExpira = verificationTokenExpira;
+    }
+
+    public List<Socio> getSocios() {
+        return socios;
+    }
+
+    public void setSocios(List<Socio> socios) {
+        this.socios = socios;
+    }
+
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
+
+    public LocalDateTime getResetPasswordTokenExpira() {
+        return resetPasswordTokenExpira;
+    }
+
+    public void setResetPasswordTokenExpira(LocalDateTime resetPasswordTokenExpira) {
+        this.resetPasswordTokenExpira = resetPasswordTokenExpira;
+    }
     
 }

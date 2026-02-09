@@ -30,44 +30,57 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
-   @Override
-protected void doFilterInternal(HttpServletRequest request,
-                                HttpServletResponse response,
-                                FilterChain filterChain)
-        throws ServletException, IOException {
-    
-    final String authHeader = request.getHeader("Authorization");
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain)
+            throws ServletException, IOException {
 
-    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-        filterChain.doFilter(request, response);
-        return;
-    }
+        String path = request.getServletPath();
 
-    String token = authHeader.substring(7);
-    String userEmail;
-    
-    try {
-        userEmail = jwtUtil.getEmailFromToken(token);
-    } catch (Exception e) {
-        filterChain.doFilter(request, response);
-        return;
-    }
-
-    if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
-        
-        if (userDetails != null) {
-            
-            UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-            authToken.setDetails(
-                    new WebAuthenticationDetailsSource().buildDetails(request)
-            );
-            SecurityContextHolder.getContext().setAuthentication(authToken);
+        // 🔓 Endpoints públicos → NO validar JWT
+        if (path.startsWith("/api/auth")) {
+            filterChain.doFilter(request, response);
+            return;
         }
-    }
 
-    filterChain.doFilter(request, response);
-}
+        final String authHeader = request.getHeader("Authorization");
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String token = authHeader.substring(7);
+        String userEmail;
+
+        try {
+            userEmail = jwtUtil.getEmailFromToken(token);
+        } catch (Exception e) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if (userEmail != null &&
+                SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+
+            if (userDetails != null) {
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities());
+
+                authToken.setDetails(
+                        new WebAuthenticationDetailsSource()
+                                .buildDetails(request));
+
+                SecurityContextHolder.getContext()
+                        .setAuthentication(authToken);
+            }
+        }
+
+        filterChain.doFilter(request, response);
+    }
 }

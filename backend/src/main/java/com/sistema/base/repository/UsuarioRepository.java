@@ -8,8 +8,13 @@ import org.springframework.stereotype.Repository;
 import com.sistema.base.model.Usuario;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository <Usuario, Long>{
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+
     Optional<Usuario> findByCorreo(String correo);
+
     boolean existsByCorreo(String correo);
+
     Usuario findByVerificationToken(String token);
+
+    Usuario findByResetPasswordToken(String token);
 }

@@ -10,7 +10,10 @@ public interface UsuarioService {
     Usuario guardar(Usuario usuario);
     void eliminar(Long id);
 
-    // NUEVOS MÉTODOS
     Usuario registrarUsuario(Usuario usuario);
     boolean verificarUsuario(String token);
+
+    void solicitarResetPassword(String correo);
+
+    boolean resetearPassword(String token, String nuevaPassword);
 }
