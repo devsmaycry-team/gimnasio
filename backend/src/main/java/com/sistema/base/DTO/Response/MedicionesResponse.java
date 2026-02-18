@@ -3,7 +3,7 @@ package com.sistema.base.DTO.Response;
 import java.time.LocalDateTime;
 
 public class MedicionesResponse {
-    private long id;
+    private Long id;
     private Long socio_id;
     private LocalDateTime fecha;
     private Double peso;
@@ -12,7 +12,7 @@ public class MedicionesResponse {
     private Double brazos;
     public MedicionesResponse() {
     }
-    public MedicionesResponse(long id, Long socio_id, LocalDateTime fecha, Double peso, Double grasa_corporal,
+    public MedicionesResponse(Long id, Long socio_id, LocalDateTime fecha, Double peso, Double grasa_corporal,
             Double pecho, Double brazos) {
         this.id = id;
         this.socio_id = socio_id;

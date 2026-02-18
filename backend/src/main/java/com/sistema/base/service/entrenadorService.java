@@ -5,11 +5,15 @@ import java.util.List;
 import com.sistema.base.DTO.Request.EntrenadorRequest;
 import com.sistema.base.DTO.Response.EntrenadorResponse;
 
-public interface entrenadorService {
-    List<EntrenadorResponse> obtenertodos();
-    EntrenadorResponse obtenerPorId(Long id);
-    EntrenadorResponse guardar(EntrenadorResponse producto);
-    void eliminar(Long id);
-    EntrenadorResponse editar(Long id, EntrenadorRequest dto);
+public interface EntrenadorService {
 
+    List<EntrenadorResponse> obtenerTodos();
+
+    EntrenadorResponse obtenerPorId(Long id);
+
+    EntrenadorResponse guardar(EntrenadorRequest request);
+
+    EntrenadorResponse editar(Long id, EntrenadorRequest request);
+
+    void eliminar(Long id);
 }

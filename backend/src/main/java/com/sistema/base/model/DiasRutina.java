@@ -13,42 +13,65 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class DiasRutina {
+
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "rutina_id")
     private Rutina rutina;
-    @OneToMany(mappedBy = "diasRutina", cascade = CascadeType.ALL)
-    private List<RutinaEjercicio> rutinaEjercicio;
-    private String dia_semana;
+
+    @OneToMany(mappedBy = "diasRutina", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RutinaEjercicio> rutinaEjercicios;
+
+    private String diaSemana;
+
+    // 👉 ESTE ES EL QUE TE FALTABA (para evitar el error getOrden())
+    private Integer orden;
+
     public DiasRutina() {
     }
+
+    // ================= GETTERS Y SETTERS =================
+
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public Rutina getRutina() {
         return rutina;
     }
+
     public void setRutina(Rutina rutina) {
         this.rutina = rutina;
     }
-    public String getDia_semana() {
-        return dia_semana;
-    }
-    public void setDia_semana(String dia_semana) {
-        this.dia_semana = dia_semana;
-    }
-    public List<RutinaEjercicio> getRutinaEjercicio() {
-        return rutinaEjercicio;
-    }
-    public void setRutinaEjercicio(List<RutinaEjercicio> rutinaEjercicio) {
-        this.rutinaEjercicio = rutinaEjercicio;
+
+    public List<RutinaEjercicio> getRutinaEjercicios() {
+        return rutinaEjercicios;
     }
 
-    
-    
+    public void setRutinaEjercicios(List<RutinaEjercicio> rutinaEjercicios) {
+        this.rutinaEjercicios = rutinaEjercicios;
+    }
+
+    public String getDiaSemana() {
+        return diaSemana;
+    }
+
+    public void setDiaSemana(String diaSemana) {
+        this.diaSemana = diaSemana;
+    }
+
+    public Integer getOrden() {
+        return orden;
+    }
+
+    public void setOrden(Integer orden) {
+        this.orden = orden;
+    }
 }

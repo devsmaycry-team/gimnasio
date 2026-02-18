@@ -1,5 +1,6 @@
 package com.sistema.base.model;
 import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,6 +48,15 @@ public class Entrenador {
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
+
+    public List<Rutina> getRutinas() {
+    return rutinas;
+    }
+
+    public void setRutinas(List<Rutina> rutinas) {
+        this.rutinas = rutinas;
+    }
+
 
     
 }

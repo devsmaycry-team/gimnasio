@@ -1,6 +1,6 @@
 package com.sistema.base.model;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,8 +19,8 @@ public class HorariosClases {
     @JoinColumn(name = "clase_id")
     private Clase clase;
     private String dia_semana;
-    private LocalDate horaInicio;
-    private LocalDate horaFin;
+    private LocalTime  horaInicio;
+    private LocalTime  horaFin;
     public HorariosClases() {
     }
     public Long getId() {
@@ -41,16 +41,16 @@ public class HorariosClases {
     public void setDia_semana(String dia_semana) {
         this.dia_semana = dia_semana;
     }
-    public LocalDate getHoraInicio() {
+    public LocalTime  getHoraInicio() {
         return horaInicio;
     }
-    public void setHoraInicio(LocalDate horaInicio) {
+    public void setHoraInicio(LocalTime  horaInicio) {
         this.horaInicio = horaInicio;
     }
-    public LocalDate getHoraFin() {
+    public LocalTime  getHoraFin() {
         return horaFin;
     }
-    public void setHoraFin(LocalDate horaFin) {
+    public void setHoraFin(LocalTime  horaFin) {
         this.horaFin = horaFin;
     }
 

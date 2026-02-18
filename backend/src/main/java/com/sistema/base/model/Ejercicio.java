@@ -16,7 +16,7 @@ public class Ejercicio {
     private Long id;
 
     private String nombre;
-    private String grupo_mucular;
+    private String grupo_muscular;
     private String equipo;
     private String imagen_url;
     private String video_url;
@@ -38,11 +38,11 @@ public class Ejercicio {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public String getGrupo_mucular() {
-        return grupo_mucular;
+    public String getGrupo_muscular() {
+        return grupo_muscular;
     }
-    public void setGrupo_mucular(String grupo_mucular) {
-        this.grupo_mucular = grupo_mucular;
+    public void setGrupo_muscular(String grupo_muscular) {
+        this.grupo_muscular = grupo_muscular;
     }
     public String getEquipo() {
         return equipo;
