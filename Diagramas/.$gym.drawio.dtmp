@@ -709,7 +709,7 @@
             <mxPoint x="1493" y="170" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="SlzGwPKvlp43uhuDQzYi-115" value="RegistroEjercicio" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;dashed=1;dashPattern=8 8;fillColor=#d80073;fontColor=#ffffff;strokeColor=#A50040;" parent="1" vertex="1">
+        <mxCell id="SlzGwPKvlp43uhuDQzYi-115" value="RegistroEjercicio" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;dashed=1;dashPattern=8 8;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
           <mxGeometry x="850" y="-100" width="180" height="240" as="geometry" />
         </mxCell>
         <mxCell id="SlzGwPKvlp43uhuDQzYi-116" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" parent="SlzGwPKvlp43uhuDQzYi-115" vertex="1">
