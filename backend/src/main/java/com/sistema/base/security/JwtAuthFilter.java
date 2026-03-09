@@ -39,7 +39,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String path = request.getServletPath();
 
         // 🔓 Endpoints públicos → NO validar JWT
-        if (path.startsWith("/api/auth")) {
+        if (path.equals("/api/auth/login") ||
+            path.equals("/api/auth/register") ||
+            path.equals("/api/auth/verify") ||
+            path.equals("/api/auth/password/reset-request") ||
+            path.equals("/api/auth/password/reset")) {
+
             filterChain.doFilter(request, response);
             return;
         }

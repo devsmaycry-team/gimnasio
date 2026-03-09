@@ -174,4 +174,10 @@ public class UsuarioServiceImplementation implements UsuarioService {
         return true;
     }
 
+    //Buscar al usuario por el correo
+    @Override
+    public Usuario buscarPorCorreo(String correo) {
+        return userRepository.findByCorreo(correo)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
 }

@@ -9,11 +9,9 @@ public interface UsuarioService {
     Usuario obtenerPorId(Long id);
     Usuario guardar(Usuario usuario);
     void eliminar(Long id);
-
+    Usuario buscarPorCorreo(String correo);
     Usuario registrarUsuario(Usuario usuario);
     boolean verificarUsuario(String token);
-
     void solicitarResetPassword(String correo);
-
     boolean resetearPassword(String token, String nuevaPassword);
 }

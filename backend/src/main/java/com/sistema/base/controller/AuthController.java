@@ -16,7 +16,7 @@ import com.sistema.base.DTO.ResetPasswordDTO;
 import com.sistema.base.model.Usuario;
 import com.sistema.base.security.AuthService;
 import com.sistema.base.service.UsuarioService;
-
+import org.springframework.security.core.Authentication;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -72,7 +72,7 @@ public class AuthController {
                     loginDTO.getEmail(),
                     loginDTO.getPassword());
             return ResponseEntity.ok(
-                    Map.of("token", "Bearer " + token));
+                    Map.of("token",token));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
                     .body(Map.of("error", e.getMessage()));
@@ -109,5 +109,28 @@ public class AuthController {
 
         return ResponseEntity.ok(
                 Map.of("mensaje", "Contraseña actualizada correctamente"));
+    }
+
+    // ---------------------------------
+    // DEVOLVER USUARIO SEGUN EL MAIL
+    // ---------------------------------
+    @GetMapping("/me")
+    public ResponseEntity<?> me(Authentication authentication) {
+
+        if (authentication == null) {
+            return ResponseEntity.status(401).body("No autenticado");
+        }
+
+        String email = authentication.getName();
+
+        Usuario usuario = usuarioService.buscarPorCorreo(email);
+
+        return ResponseEntity.ok(Map.of(
+                "id", usuario.getId(),
+                "email", usuario.getCorreo(),
+                "activo", usuario.getActivo(),
+                "nombre", usuario.getPersona().getNombre(),
+                "apellido", usuario.getPersona().getApellido()
+        ));
     }
 }
