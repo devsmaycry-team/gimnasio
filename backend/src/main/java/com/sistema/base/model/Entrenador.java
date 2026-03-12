@@ -20,6 +20,12 @@ public class Entrenador {
     private Usuario usuario;
     @OneToMany(mappedBy = "entrenador", cascade = CascadeType.ALL)
     private List<Rutina> rutinas;
+
+    @ManyToOne
+    @JoinColumn(name = "gimnasio_id")
+    private Gimnasio gimnasio;
+
+
     private String especialidad;
     private String matricula;
     public Entrenador() {
@@ -27,6 +33,8 @@ public class Entrenador {
     public Long getId() {
         return id;
     }
+
+    
     public void setId(Long id) {
         this.id = id;
     }
@@ -55,6 +63,12 @@ public class Entrenador {
 
     public void setRutinas(List<Rutina> rutinas) {
         this.rutinas = rutinas;
+    }
+    public Gimnasio getGimnasio() {
+        return gimnasio;
+    }
+    public void setGimnasio(Gimnasio gimnasio) {
+        this.gimnasio = gimnasio;
     }
 
 

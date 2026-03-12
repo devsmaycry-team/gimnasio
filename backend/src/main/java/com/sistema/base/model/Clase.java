@@ -16,6 +16,12 @@ public class Clase {
     @ManyToOne
     @JoinColumn(name = "entrenador_id")
     private Entrenador entrenador;
+
+    @ManyToOne
+    @JoinColumn(name = "gimnasio_id")
+    private Gimnasio gimnasio;
+
+
     private int cupo_maximo;
     public Clase() {
     }
@@ -25,6 +31,8 @@ public class Clase {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    
     public Entrenador getEntrenador() {
         return entrenador;
     }
@@ -36,6 +44,12 @@ public class Clase {
     }
     public void setCupo_maximo(int cupo_maximo) {
         this.cupo_maximo = cupo_maximo;
+    }
+    public Gimnasio getGimnasio() {
+        return gimnasio;
+    }
+    public void setGimnasio(Gimnasio gimnasio) {
+        this.gimnasio = gimnasio;
     }
 
     

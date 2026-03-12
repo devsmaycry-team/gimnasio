@@ -29,6 +29,11 @@ public class Socio {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "gimnasio_id")
+    private Gimnasio gimnasio;
+
     private Long numero_socio;
     private String observacionMedica;
     public Socio() {
@@ -39,6 +44,8 @@ public class Socio {
     public void setId(Long id) {
         this.id = id;
     }
+
+    
     public List<Mediciones> getMediciones() {
         return mediciones;
     }
@@ -86,6 +93,12 @@ public class Socio {
     }
     public void setObservacionMedica(String observacionMedica) {
         this.observacionMedica = observacionMedica;
+    }
+    public Gimnasio getGimnasio() {
+        return gimnasio;
+    }
+    public void setGimnasio(Gimnasio gimnasio) {
+        this.gimnasio = gimnasio;
     }
 
     

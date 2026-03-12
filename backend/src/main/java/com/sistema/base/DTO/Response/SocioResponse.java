@@ -11,13 +11,14 @@ public class SocioResponse {
     private List<InscripcionClasesResponse> inscripcionClases;
     private Long usuario_id;
     private Long numero_socio;
+    private Long gimnasio_id;
     private String observacionMedica;
     public SocioResponse() {
     }
     public SocioResponse(Long id, List<MedicionesResponse> mediciones, List<MembresiaResponse> membresias,
             List<PagosResponse> pagos, List<AsistenciaResponse> asistencias,
             List<InscripcionClasesResponse> inscripcionClases, Long usuario_id, Long numero_socio,
-            String observacionMedica) {
+            String observacionMedica, Long gimnasio_id) {
         this.id = id;
         this.mediciones = mediciones;
         this.membresias = membresias;
@@ -27,6 +28,7 @@ public class SocioResponse {
         this.usuario_id = usuario_id;
         this.numero_socio = numero_socio;
         this.observacionMedica = observacionMedica;
+        this.gimnasio_id = gimnasio_id;
     }
     public Long getId() {
         return id;
@@ -34,6 +36,7 @@ public class SocioResponse {
     public void setId(Long id) {
         this.id = id;
     }
+    
     public List<MedicionesResponse> getMediciones() {
         return mediciones;
     }
@@ -81,6 +84,12 @@ public class SocioResponse {
     }
     public void setObservacionMedica(String observacionMedica) {
         this.observacionMedica = observacionMedica;
+    }
+    public Long getGimnasio_id() {
+        return gimnasio_id;
+    }
+    public void setGimnasio_id(Long gimnasio_id) {
+        this.gimnasio_id = gimnasio_id;
     }
     
 }

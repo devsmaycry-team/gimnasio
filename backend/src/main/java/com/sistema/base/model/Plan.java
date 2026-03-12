@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -14,6 +16,11 @@ public class Plan {
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "gimnasio_id")
+    private Gimnasio gimnasio;
+
     private String nombre;
     private double precio;
     private int duracion_dias;
@@ -24,6 +31,7 @@ public class Plan {
     public Plan() {
     }
 
+    
     public String getNombre() {
         return nombre;
     }
@@ -64,6 +72,16 @@ public class Plan {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+    public Gimnasio getGimnasio() {
+        return gimnasio;
+    }
+
+
+    public void setGimnasio(Gimnasio gimnasio) {
+        this.gimnasio = gimnasio;
     }
 
     

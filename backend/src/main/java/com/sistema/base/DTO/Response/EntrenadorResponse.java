@@ -9,15 +9,17 @@ public class EntrenadorResponse {
     private String especialidad;
     private String matricula;
     private List<RutinaResponse> rutinas;
+    private Long gimnasio_id;
     public EntrenadorResponse() {
     }
     public EntrenadorResponse(Long id, Long usuario_id, String especialidad, String matricula,
-            List<RutinaResponse> rutinas) {
+            List<RutinaResponse> rutinas, Long gimnasio_id) {
         this.id = id;
         this.usuario_id = usuario_id;
         this.especialidad = especialidad;
         this.matricula = matricula;
         this.rutinas = rutinas;
+        this.gimnasio_id = gimnasio_id;
     }
     public Long getId() {
         return id;
@@ -25,6 +27,7 @@ public class EntrenadorResponse {
     public void setId(Long id) {
         this.id = id;
     }
+    
     public Long getUsuario_id() {
         return usuario_id;
     }
@@ -48,6 +51,12 @@ public class EntrenadorResponse {
     }
     public void setRutinas(List<RutinaResponse> rutinas) {
         this.rutinas = rutinas;
+    }
+    public Long getGimnasio_id() {
+        return gimnasio_id;
+    }
+    public void setGimnasio_id(Long gimnasio_id) {
+        this.gimnasio_id = gimnasio_id;
     }
 
     

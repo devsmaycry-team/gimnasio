@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.sistema.base.DTO.Request.PlanRequest;
 import com.sistema.base.DTO.Response.PlanResponse;
+import com.sistema.base.model.Gimnasio;
 import com.sistema.base.model.Plan;
+import com.sistema.base.repository.GimnasioRepository;
 import com.sistema.base.repository.PlanRepository;
 import com.sistema.base.service.PlanService;
 
@@ -17,7 +19,8 @@ public class PlanServiceImplementation implements PlanService {
 
     @Autowired
     private PlanRepository planRepository;
-
+    @Autowired
+    private GimnasioRepository gimnasioRepository;
     @Override
     public List<PlanResponse> obtenertodos() {
         return planRepository.findAll()
@@ -37,14 +40,16 @@ public class PlanServiceImplementation implements PlanService {
     @Override
     public PlanResponse guardar(PlanRequest dto) {
 
+         Gimnasio gimnasio = gimnasioRepository.findById(dto.getGimnasio_id())
+                .orElseThrow(() -> new RuntimeException("Entrenador no encontrado"));
+
         Plan plan = new Plan();
         plan.setNombre(dto.getNombre());
         plan.setPrecio(dto.getPrecio());
         plan.setDuracion_dias(dto.getDuracion_dias());
         plan.setClases_incluidas(dto.getClases_incluidas());
-
+        plan.setGimnasio(gimnasio);
         Plan guardado = planRepository.save(plan);
-
         return convertirAResponse(guardado);
     }
 
@@ -75,7 +80,8 @@ public class PlanServiceImplementation implements PlanService {
                 plan.getNombre(),
                 plan.getPrecio(),
                 plan.getDuracion_dias(),
-                plan.getClases_incluidas()
+                plan.getClases_incluidas(),
+                plan.getGimnasio().getId()
         );
     }
 }

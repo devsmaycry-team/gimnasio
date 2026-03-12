@@ -3,12 +3,15 @@ package com.sistema.base.service_implementation;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sistema.base.DTO.Request.SocioRequest;
 import com.sistema.base.DTO.Response.SocioResponse;
+import com.sistema.base.model.Gimnasio;
 import com.sistema.base.model.Socio;
 import com.sistema.base.model.Usuario;
+import com.sistema.base.repository.GimnasioRepository;
 import com.sistema.base.repository.SocioRepository;
 import com.sistema.base.repository.UsuarioRepository;
 import com.sistema.base.service.SocioService;
@@ -18,6 +21,8 @@ public class SocioServiceImplementation implements SocioService {
 
     private final SocioRepository socioRepository;
     private final UsuarioRepository usuarioRepository;
+    @Autowired
+    private GimnasioRepository gimnasioRepository;
 
     public SocioServiceImplementation(SocioRepository socioRepository, UsuarioRepository usuarioRepository) {
         this.socioRepository = socioRepository;
@@ -46,14 +51,17 @@ public class SocioServiceImplementation implements SocioService {
         Usuario usuario = usuarioRepository.findById(dto.getUsuario_id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+        Gimnasio gimnasio = gimnasioRepository.findById(dto.getGimnasio_id())
+                .orElseThrow(() -> new RuntimeException("Gimnasio no encontrado"));
+
         socio.setUsuario(usuario);
+        socio.setGimnasio(gimnasio);
         socio.setNumero_socio(dto.getNumero_socio());
         socio.setObservacionMedica(dto.getObservacionMedica());
 
         Socio guardado = socioRepository.save(socio);
         return mapToResponse(guardado);
     }
-
     @Override
     public void eliminar(Long id) {
         if (!socioRepository.existsById(id)) {
@@ -70,7 +78,11 @@ public class SocioServiceImplementation implements SocioService {
         Usuario usuario = usuarioRepository.findById(dto.getUsuario_id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+        Gimnasio gimnasio = gimnasioRepository.findById(dto.getGimnasio_id())
+                .orElseThrow(() -> new RuntimeException("Gimnasio no encontrado"));
+
         socio.setUsuario(usuario);
+        socio.setGimnasio(gimnasio);
         socio.setNumero_socio(dto.getNumero_socio());
         socio.setObservacionMedica(dto.getObservacionMedica());
 
@@ -88,7 +100,8 @@ public class SocioServiceImplementation implements SocioService {
                 null, // inscripciones
                 socio.getUsuario() != null ? socio.getUsuario().getId() : null,
                 socio.getNumero_socio(),
-                socio.getObservacionMedica()
+                socio.getObservacionMedica(),
+                socio.getGimnasio() != null ? socio.getGimnasio().getId() : null
         );
     }
 }
