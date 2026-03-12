@@ -168,16 +168,16 @@ public class AuthService {
 
     // ---------------- MODIFICAR ROL USUARIO ----------------
     @Transactional
-    public void cambiarRolUsuario(Long usuarioId, String nuevoRol) {
+    public void cambiarRolUsuario(Long usuarioId, Long rolId) {  // Long en vez de String
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        Rol rol = rolRepository.findByCargo(nuevoRol)
-                .orElseThrow(() -> new RuntimeException("Rol no existe"));
+        Rol rol = rolRepository.findById(rolId)  // busca por ID
+                .orElseThrow(() -> new RuntimeException("Rol no existe: " + rolId));
 
         boolean tieneRol = usuario.getUserRols().stream()
-                .anyMatch(ur -> ur.getRol().getCargo().equals(nuevoRol));
+                .anyMatch(ur -> ur.getRol().getId().equals(rolId));
 
         if (tieneRol) {
             throw new RuntimeException("El usuario ya tiene ese rol");
@@ -186,7 +186,63 @@ public class AuthService {
         UserRol userRol = new UserRol();
         userRol.setUser(usuario);
         userRol.setRol(rol);
+        usuario.getUserRols().add(userRol);
 
+        usuarioRepository.save(usuario);
+    }
+
+    // ---------------- SACAR ROL USUARIO ----------------
+    @Transactional
+    public void quitarRolUsuario(Long usuarioId, Long rolId) {
+
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Rol rol = rolRepository.findById(rolId)
+                .orElseThrow(() -> new RuntimeException("Rol no existe: " + rolId));
+
+        boolean tieneRol = usuario.getUserRols().stream()
+                .anyMatch(ur -> ur.getRol().getId().equals(rolId));
+
+        if (!tieneRol) {
+            throw new RuntimeException("El usuario no tiene ese rol");
+        }
+
+        usuario.getUserRols().removeIf(ur -> ur.getRol().getId().equals(rolId));
+
+        usuarioRepository.save(usuario);
+    }
+    // ---------------- EDITAR ROL USUARIO (REEMPLAZA)----------------
+    @Transactional
+    public void editarRolUsuario(Long usuarioId, Long rolViejoId, Long rolNuevoId) {
+
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Rol rolNuevo = rolRepository.findById(rolNuevoId)
+                .orElseThrow(() -> new RuntimeException("Rol nuevo no existe: " + rolNuevoId));
+
+        boolean tieneRolViejo = usuario.getUserRols().stream()
+                .anyMatch(ur -> ur.getRol().getId().equals(rolViejoId));
+
+        if (!tieneRolViejo) {
+            throw new RuntimeException("El usuario no tiene el rol a reemplazar");
+        }
+
+        boolean tieneRolNuevo = usuario.getUserRols().stream()
+                .anyMatch(ur -> ur.getRol().getId().equals(rolNuevoId));
+
+        if (tieneRolNuevo) {
+            throw new RuntimeException("El usuario ya tiene el rol nuevo");
+        }
+
+        // Quitar viejo
+        usuario.getUserRols().removeIf(ur -> ur.getRol().getId().equals(rolViejoId));
+
+        // Agregar nuevo
+        UserRol userRol = new UserRol();
+        userRol.setUser(usuario);
+        userRol.setRol(rolNuevo);
         usuario.getUserRols().add(userRol);
 
         usuarioRepository.save(usuario);
