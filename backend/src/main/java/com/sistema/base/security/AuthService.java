@@ -11,18 +11,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sistema.base.DTO.RegistroDTO;
+import com.sistema.base.model.Gimnasio;
 import com.sistema.base.model.Persona;
 import com.sistema.base.model.Rol;
+import com.sistema.base.model.Socio;
 import com.sistema.base.model.UserRol;
 import com.sistema.base.model.Usuario;
+import com.sistema.base.repository.GimnasioRepository;
 import com.sistema.base.repository.PersonaRepository;
 import com.sistema.base.repository.RolRepository;
+import com.sistema.base.repository.SocioRepository;
 import com.sistema.base.repository.UsuarioRepository;
 
 import jakarta.transaction.Transactional;
 
 @Service
 public class AuthService {
+
+    @Autowired
+    private GimnasioRepository gimnasioRepository;
+
+    @Autowired
+    private SocioRepository socioRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -46,46 +56,79 @@ public class AuthService {
     @Transactional
     public Usuario registrarUsuario(RegistroDTO dto) {
 
-         if (!dto.getPassword().equals(dto.getRepeatPassword())) {
+        // Validar contraseñas
+        if (!dto.getPassword().equals(dto.getRepeatPassword())) {
             throw new RuntimeException("Las contraseñas no coinciden");
         }
 
+        // Validar email duplicado
         if (usuarioRepository.findByCorreo(dto.getEmail()).isPresent()) {
             throw new RuntimeException("El correo ya está registrado");
         }
 
+        // Validar código gym
+        if (dto.getCodigo_gym() == null || dto.getCodigo_gym().isEmpty()) {
+            throw new RuntimeException("Debe ingresar el código del gimnasio");
+        }
+
+        // ======================
         // Crear Persona
+        // ======================
         Persona persona = new Persona();
         persona.setNombre(dto.getNombre());
         persona.setApellido(dto.getApellido());
         persona.setCelular(dto.getCelular());
+
         persona = personaRepository.save(persona);
 
+        // ======================
         // Crear Usuario
+        // ======================
         Usuario usuario = new Usuario();
         usuario.setCorreo(dto.getEmail());
         usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
-        usuario.setActivo(false); // INACTIVO hasta verificar email
+        usuario.setActivo(false);
         usuario.setPersona(persona);
 
-        // Generar token de verificación
+        // Token verificación
         String token = UUID.randomUUID().toString();
         usuario.setVerificationToken(token);
 
         usuario = usuarioRepository.save(usuario);
 
-        // Asignar rol CLIENTE
+        // ======================
+        // Asignar Rol CLIENTE
+        // ======================
         Rol rolCliente = rolRepository.findByCargo("ROLE_CLIENTE")
                 .orElseThrow(() -> new RuntimeException("El rol ROLE_CLIENTE no existe"));
 
         UserRol userRol = new UserRol();
         userRol.setUser(usuario);
         userRol.setRol(rolCliente);
+
         usuario.getUserRols().add(userRol);
 
-        usuario = usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
 
-        // Enviar email de verificación
+        // ======================
+        // Buscar gimnasio
+        // ======================
+        Gimnasio gimnasio = gimnasioRepository
+                .findByCodigoGym(dto.getCodigo_gym())
+                .orElseThrow(() -> new RuntimeException("Código de gimnasio inválido"));
+
+        // ======================
+        // Crear Socio
+        // ======================
+        Socio socio = new Socio();
+        socio.setUsuario(usuario);
+        socio.setGimnasio(gimnasio);
+
+        socioRepository.save(socio);
+
+        // ======================
+        // Enviar email verificación
+        // ======================
         enviarMailVerificacion(usuario);
 
         return usuario;
@@ -122,6 +165,33 @@ public class AuthService {
 
         return usuarioRepository.save(usuario);
     }
+
+    // ---------------- MODIFICAR ROL USUARIO ----------------
+    @Transactional
+    public void cambiarRolUsuario(Long usuarioId, String nuevoRol) {
+
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Rol rol = rolRepository.findByCargo(nuevoRol)
+                .orElseThrow(() -> new RuntimeException("Rol no existe"));
+
+        boolean tieneRol = usuario.getUserRols().stream()
+                .anyMatch(ur -> ur.getRol().getCargo().equals(nuevoRol));
+
+        if (tieneRol) {
+            throw new RuntimeException("El usuario ya tiene ese rol");
+        }
+
+        UserRol userRol = new UserRol();
+        userRol.setUser(usuario);
+        userRol.setRol(rol);
+
+        usuario.getUserRols().add(userRol);
+
+        usuarioRepository.save(usuario);
+    }
+
 
     // ---------------- ENVÍO EMAIL ----------------
     private void enviarMailVerificacion(Usuario usuario) {

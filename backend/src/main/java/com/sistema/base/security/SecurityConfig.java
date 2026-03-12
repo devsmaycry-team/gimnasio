@@ -72,6 +72,8 @@ public class SecurityConfig {
                 // Endpoints de auth libres
                 .requestMatchers("/api/auth/**").permitAll()
 
+                // ADMIN
+                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 // Todo lo demás requiere autenticación
                 .anyRequest().authenticated()
             )

@@ -37,7 +37,7 @@ public class Gimnasio {
     private String direccion;
     private String telefono;
     private String email;
-    private String codigo_gym;
+    private String codigoGym;
     
     public Gimnasio() {
     }
@@ -97,10 +97,10 @@ public class Gimnasio {
         this.email = email;
     }
     public String getCodigo_gym() {
-        return codigo_gym;
+        return codigoGym;
     }
     public void setCodigo_gym(String codigo_gym) {
-        this.codigo_gym = codigo_gym;
+        this.codigoGym = codigo_gym;
     }
 
     
