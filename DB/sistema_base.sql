@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-02-2026 a las 13:23:22
+-- Tiempo de generación: 14-03-2026 a las 21:30:36
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -43,7 +43,8 @@ CREATE TABLE `asistencias` (
 CREATE TABLE `clase` (
   `id` bigint(20) NOT NULL,
   `cupo_maximo` int(11) NOT NULL,
-  `entrenador_id` bigint(20) DEFAULT NULL
+  `entrenador_id` bigint(20) DEFAULT NULL,
+  `gimnasio_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -55,7 +56,8 @@ CREATE TABLE `clase` (
 CREATE TABLE `dias_rutina` (
   `id` bigint(20) NOT NULL,
   `dia_semana` varchar(255) DEFAULT NULL,
-  `rutina_id` bigint(20) DEFAULT NULL
+  `rutina_id` bigint(20) DEFAULT NULL,
+  `orden` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -70,7 +72,8 @@ CREATE TABLE `ejercicio` (
   `grupo_mucular` varchar(255) DEFAULT NULL,
   `imagen_url` varchar(255) DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
-  `video_url` varchar(255) DEFAULT NULL
+  `video_url` varchar(255) DEFAULT NULL,
+  `grupo_muscular` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -83,8 +86,31 @@ CREATE TABLE `entrenador` (
   `id` bigint(20) NOT NULL,
   `especialidad` varchar(255) DEFAULT NULL,
   `matricula` varchar(255) DEFAULT NULL,
-  `usuario_id` bigint(20) DEFAULT NULL
+  `usuario_id` bigint(20) DEFAULT NULL,
+  `gimnasio_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `gimnasio`
+--
+
+CREATE TABLE `gimnasio` (
+  `id` bigint(20) NOT NULL,
+  `codigo_gym` varchar(255) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `telefono` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `gimnasio`
+--
+
+INSERT INTO `gimnasio` (`id`, `codigo_gym`, `direccion`, `email`, `nombre`, `telefono`) VALUES
+(1, 'pulso123', '60 y 140', 'pulso@gmail.com', 'Pulso', '4500111');
 
 -- --------------------------------------------------------
 
@@ -95,8 +121,8 @@ CREATE TABLE `entrenador` (
 CREATE TABLE `horarios_clases` (
   `id` bigint(20) NOT NULL,
   `dia_semana` varchar(255) DEFAULT NULL,
-  `hora_fin` date DEFAULT NULL,
-  `hora_inicio` date DEFAULT NULL,
+  `hora_fin` time(6) DEFAULT NULL,
+  `hora_inicio` time(6) DEFAULT NULL,
   `clase_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -183,7 +209,8 @@ INSERT INTO `persona` (`id`, `apellido`, `nombre`, `celular`) VALUES
 (4, 'Garnica', 'Facundo', '2216272337'),
 (5, 'Pérez', 'Juan', '123456789'),
 (6, 'ribia', 'geralt', '1234'),
-(7, 'Garnica', 'Facundo', '1234');
+(7, 'Garnica', 'Facundo', '1234'),
+(8, 'Ruffa', 'Yamil', '2216272333');
 
 -- --------------------------------------------------------
 
@@ -196,7 +223,8 @@ CREATE TABLE `plan` (
   `clases_incluidas` int(11) NOT NULL,
   `duracion_dias` int(11) NOT NULL,
   `nombre` varchar(255) DEFAULT NULL,
-  `precio` double NOT NULL
+  `precio` double NOT NULL,
+  `gimnasio_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -232,7 +260,9 @@ CREATE TABLE `rol` (
 
 INSERT INTO `rol` (`id`, `cargo`) VALUES
 (1, 'ROLE_ADMIN'),
-(2, 'ROLE_CLIENTE');
+(2, 'ROLE_CLIENTE'),
+(3, 'ROLE_ENTRENADOR'),
+(4, 'ROLE_SUPERADMIN');
 
 -- --------------------------------------------------------
 
@@ -277,8 +307,17 @@ CREATE TABLE `socio` (
   `id` bigint(20) NOT NULL,
   `numero_socio` bigint(20) DEFAULT NULL,
   `observacion_medica` varchar(255) DEFAULT NULL,
-  `usuario_id` bigint(20) DEFAULT NULL
+  `usuario_id` bigint(20) DEFAULT NULL,
+  `gimnasio_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `socio`
+--
+
+INSERT INTO `socio` (`id`, `numero_socio`, `observacion_medica`, `usuario_id`, `gimnasio_id`) VALUES
+(2, NULL, NULL, 8, 1),
+(3, 2, 'ninguna', 7, 1);
 
 -- --------------------------------------------------------
 
@@ -297,7 +336,9 @@ CREATE TABLE `user_rol` (
 --
 
 INSERT INTO `user_rol` (`id`, `rol_id`, `user_id`) VALUES
-(7, 1, 7);
+(7, 1, 7),
+(9, 3, 8),
+(10, 4, 7);
 
 -- --------------------------------------------------------
 
@@ -322,7 +363,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `activo`, `correo`, `password`, `persona_id`, `verification_token`, `reset_password_token`, `reset_password_token_expira`, `verification_token_expira`) VALUES
-(7, b'1', 'facundogarnica1996@gmail.com', '$2a$10$ScitdDC0DOlftWD1E2DhJuu4xRvHPcV66csQa/Z1NvDttxox0zsAO', 7, NULL, NULL, NULL, NULL);
+(7, b'1', 'facundogarnica1996@gmail.com', '$2a$10$ScitdDC0DOlftWD1E2DhJuu4xRvHPcV66csQa/Z1NvDttxox0zsAO', 7, NULL, NULL, NULL, NULL),
+(8, b'1', 'yaruffa@gmail.com', '$2a$10$USQlqwWnicMaITiioyUrFufOVBN3yQmDWWQHpdsoUienMGN4Nc2sK', 8, 'ba6370f4-061d-48e6-ad39-ccbdd206bb2c', NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -340,7 +382,8 @@ ALTER TABLE `asistencias`
 --
 ALTER TABLE `clase`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FKbu5yajln47iild7uv753bvxp1` (`entrenador_id`);
+  ADD KEY `FKbu5yajln47iild7uv753bvxp1` (`entrenador_id`),
+  ADD KEY `FKtgxdvik98jr1afq5f7mux6c8o` (`gimnasio_id`);
 
 --
 -- Indices de la tabla `dias_rutina`
@@ -360,7 +403,14 @@ ALTER TABLE `ejercicio`
 --
 ALTER TABLE `entrenador`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FKop1450umoubj72mrq4mnlnjou` (`usuario_id`);
+  ADD KEY `FKop1450umoubj72mrq4mnlnjou` (`usuario_id`),
+  ADD KEY `FK8yju2ropcf2mjhvkmthhycklq` (`gimnasio_id`);
+
+--
+-- Indices de la tabla `gimnasio`
+--
+ALTER TABLE `gimnasio`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `horarios_clases`
@@ -410,7 +460,8 @@ ALTER TABLE `persona`
 -- Indices de la tabla `plan`
 --
 ALTER TABLE `plan`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKqxemqn91b2na5geiytquk5q86` (`gimnasio_id`);
 
 --
 -- Indices de la tabla `registro_ejercicio`
@@ -446,7 +497,8 @@ ALTER TABLE `rutina_ejercicio`
 --
 ALTER TABLE `socio`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FKfdj8erxkmnd66pjnkf54wajeh` (`usuario_id`);
+  ADD KEY `FKfdj8erxkmnd66pjnkf54wajeh` (`usuario_id`),
+  ADD KEY `FKmmtb5m456iixmis8ac4i1tik4` (`gimnasio_id`);
 
 --
 -- Indices de la tabla `user_rol`
@@ -498,6 +550,12 @@ ALTER TABLE `entrenador`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `gimnasio`
+--
+ALTER TABLE `gimnasio`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `horarios_clases`
 --
 ALTER TABLE `horarios_clases`
@@ -531,7 +589,7 @@ ALTER TABLE `pagos`
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `plan`
@@ -549,7 +607,7 @@ ALTER TABLE `registro_ejercicio`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `rutina`
@@ -567,19 +625,19 @@ ALTER TABLE `rutina_ejercicio`
 -- AUTO_INCREMENT de la tabla `socio`
 --
 ALTER TABLE `socio`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `user_rol`
 --
 ALTER TABLE `user_rol`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
@@ -595,7 +653,8 @@ ALTER TABLE `asistencias`
 -- Filtros para la tabla `clase`
 --
 ALTER TABLE `clase`
-  ADD CONSTRAINT `FKbu5yajln47iild7uv753bvxp1` FOREIGN KEY (`entrenador_id`) REFERENCES `entrenador` (`id`);
+  ADD CONSTRAINT `FKbu5yajln47iild7uv753bvxp1` FOREIGN KEY (`entrenador_id`) REFERENCES `entrenador` (`id`),
+  ADD CONSTRAINT `FKtgxdvik98jr1afq5f7mux6c8o` FOREIGN KEY (`gimnasio_id`) REFERENCES `gimnasio` (`id`);
 
 --
 -- Filtros para la tabla `dias_rutina`
@@ -607,6 +666,7 @@ ALTER TABLE `dias_rutina`
 -- Filtros para la tabla `entrenador`
 --
 ALTER TABLE `entrenador`
+  ADD CONSTRAINT `FK8yju2ropcf2mjhvkmthhycklq` FOREIGN KEY (`gimnasio_id`) REFERENCES `gimnasio` (`id`),
   ADD CONSTRAINT `FKop1450umoubj72mrq4mnlnjou` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
 
 --
@@ -643,6 +703,12 @@ ALTER TABLE `pagos`
   ADD CONSTRAINT `FKnyr3y9buopiwnab89ybqi3e8m` FOREIGN KEY (`socio_id`) REFERENCES `socio` (`id`);
 
 --
+-- Filtros para la tabla `plan`
+--
+ALTER TABLE `plan`
+  ADD CONSTRAINT `FKqxemqn91b2na5geiytquk5q86` FOREIGN KEY (`gimnasio_id`) REFERENCES `gimnasio` (`id`);
+
+--
 -- Filtros para la tabla `registro_ejercicio`
 --
 ALTER TABLE `registro_ejercicio`
@@ -666,7 +732,8 @@ ALTER TABLE `rutina_ejercicio`
 -- Filtros para la tabla `socio`
 --
 ALTER TABLE `socio`
-  ADD CONSTRAINT `FKfdj8erxkmnd66pjnkf54wajeh` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `FKfdj8erxkmnd66pjnkf54wajeh` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `FKmmtb5m456iixmis8ac4i1tik4` FOREIGN KEY (`gimnasio_id`) REFERENCES `gimnasio` (`id`);
 
 --
 -- Filtros para la tabla `user_rol`

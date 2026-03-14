@@ -1,0 +1,7 @@
+Rol: ADMIN y SUPERADMIN
+facundogarnica1996@gmail.com
+Password: 12345678
+
+Rol:ENTRENADOR
+yaruffa@gmail.com
+Password: 12345678

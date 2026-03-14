@@ -20,7 +20,6 @@ public class RolController {
     @Autowired
 	private RolService rolService;
 	
-	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/todos")
 	public List<Rol> obtenerTodos(){
 		return rolService.obtenerTodos();

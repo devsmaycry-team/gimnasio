@@ -39,8 +39,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (path.equals("/api/auth/login") ||
             path.equals("/api/auth/register") ||
             path.equals("/api/auth/verify") ||
-            path.equals("/api/auth/password/reset-request") ||
-            path.equals("/api/auth/password/reset")) {
+            path.equals("/api/rol/todos")) { // permite mostrar roles
             filterChain.doFilter(request, response);
             return;
         }
