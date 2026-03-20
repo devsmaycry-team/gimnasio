@@ -1,7 +1,6 @@
 package com.sistema.base.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,35 +16,17 @@ public class UserRol {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference("UserRol-user")
+    @JsonIgnore                    // ← no serializar usuario (evita loop)
     public Usuario user;
 
     @ManyToOne
-    @JoinColumn(name = "rol_id")
-    @JsonBackReference("userRol-rol")
+    @JoinColumn(name = "rol_id")   // ← sin anotación, ahora sí viene en el JSON
     public Rol rol;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Usuario getUser() {
-        return user;
-    }
-
-    public void setUser(Usuario user) {
-        this.user = user;
-    }
-
-    public Rol getRol() {
-        return rol;
-    }
-
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Usuario getUser() { return user; }
+    public void setUser(Usuario user) { this.user = user; }
+    public Rol getRol() { return rol; }
+    public void setRol(Rol rol) { this.rol = rol; }
 }

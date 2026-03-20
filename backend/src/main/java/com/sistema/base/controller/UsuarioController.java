@@ -14,33 +14,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sistema.base.model.Usuario;
 import com.sistema.base.service.UsuarioService;
+
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
     @Autowired
-	private UsuarioService usuarioService;
-	
-	@PreAuthorize("hasRole('ADMIN')")
-	@GetMapping("/todos")
-	public List<Usuario> obtenerTodos(){
-		return usuarioService.obtenerTodos();
-	}
+    private UsuarioService usuarioService;
+    
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/todos")
+    public List<Usuario> obtenerTodos(){
+        return usuarioService.obtenerTodos();
+    }
 
-	@PreAuthorize("hasRole('ADMIN')")
-	@GetMapping("/buscar/{id}")
-	public Usuario buscarPorId(@PathVariable Long id) {
-		return usuarioService.obtenerPorId(id);
-	}
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/buscar/{id}")
+    public Usuario buscarPorId(@PathVariable Long id) {
+        return usuarioService.obtenerPorId(id);
+    }
 
-	@PreAuthorize("hasRole('ADMIN')")
-	@PostMapping ("/crear")
-	public Usuario crear (@RequestBody Usuario usuario) {
-		return usuarioService.guardar(usuario);
-	}
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/crear")
+    public Usuario crear(@RequestBody Usuario usuario) {
+        return usuarioService.guardar(usuario);
+    }
 
-	@PreAuthorize("hasRole('ADMIN')")
-	@DeleteMapping("/borrar/{id}")
-	public void eliminar(@PathVariable Long id) {
-		usuarioService.eliminar(id);
-	}
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping("/borrar/{id}")
+    public void eliminar(@PathVariable Long id) {
+        usuarioService.eliminar(id);
+    }
 }

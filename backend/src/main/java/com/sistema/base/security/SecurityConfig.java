@@ -23,65 +23,48 @@ public class SecurityConfig {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
-    // Password encoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // CORS GLOBAL (angular -> spring boot)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-
         config.addAllowedOrigin("http://localhost:4200");
         config.addAllowedHeader("*");
-        config.addAllowedMethod("*");  // GET, POST, PUT, DELETE, OPTIONS
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("OPTIONS");
         config.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
-
         return source;
     }
 
-    // CONFIGURACIÓN DE SEGURIDAD
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // ❗ CORS primero
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            
-            // Desactivar CSRF (para APIs)
             .csrf(csrf -> csrf.disable())
-            
-            // Stateless (sin sesión)
-            .sessionManagement(session -> 
+            .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
-
             .authorizeHttpRequests(auth -> auth
-                // Swagger libre
                 .requestMatchers(
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
                     "/swagger-resources/**",
                     "/webjars/**"
                 ).permitAll()
-
-                // Endpoints de auth libres
                 .requestMatchers("/api/auth/**").permitAll()
-                // Endpoints de auth libres
                 .requestMatchers("/rol/todos").permitAll()
-               
-                // Todo lo demás requiere autenticación
+                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // ← preflight libre
                 .anyRequest().authenticated()
             )
-
-            // JWT filter
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-
-            // Desactivar login y HTTP Basic
             .formLogin(form -> form.disable())
             .httpBasic(basic -> basic.disable());
 
