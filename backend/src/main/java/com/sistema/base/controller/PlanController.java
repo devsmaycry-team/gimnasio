@@ -33,6 +33,14 @@ public class PlanController {
         return planService.obtenerPorId(id);
     }
 
+    // =========================
+    // GET BY GYM
+    // =========================
+    @GetMapping("/planesgym/{id}")
+    public List<PlanResponse> obtenerPorGimnasio(@PathVariable Long id) {
+        return planService.obtenerPorGym(id);
+    }
+
     @PostMapping
     public PlanResponse guardar(@RequestBody PlanRequest dto) {
         return planService.guardar(dto);

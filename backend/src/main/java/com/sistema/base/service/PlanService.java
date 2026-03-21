@@ -7,6 +7,7 @@ import com.sistema.base.DTO.Response.PlanResponse;
 
 public interface PlanService {
     List<PlanResponse> obtenertodos();
+    List<PlanResponse> obtenerPorGym(Long id);
     PlanResponse obtenerPorId(Long id);
     PlanResponse guardar(PlanRequest producto);
     void eliminar(Long id);

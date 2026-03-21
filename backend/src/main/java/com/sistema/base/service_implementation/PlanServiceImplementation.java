@@ -37,6 +37,15 @@ public class PlanServiceImplementation implements PlanService {
         return convertirAResponse(plan);
     }
 
+    //todos los planes segun el gym asociado
+    @Override
+    public List<PlanResponse> obtenerPorGym(Long id){
+         return planRepository.findByGimnasioId(id)
+                .stream()
+                .map(this::convertirAResponse)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public PlanResponse guardar(PlanRequest dto) {
 

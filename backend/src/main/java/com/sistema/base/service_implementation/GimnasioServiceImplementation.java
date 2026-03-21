@@ -53,7 +53,7 @@ public class GimnasioServiceImplementation implements GimnasioService {
         gimnasio.setDireccion(request.getDireccion());
         gimnasio.setTelefono(request.getTelefono());
         gimnasio.setEmail(request.getEmail());
-        gimnasio.setCodigo_gym(request.getCodigo_gym());
+        gimnasio.setCodigo_gym(request.getCodigoGym());
 
         Gimnasio guardado = gimnasioRepository.save(gimnasio);
 
@@ -73,7 +73,7 @@ public class GimnasioServiceImplementation implements GimnasioService {
         gimnasio.setDireccion(request.getDireccion());
         gimnasio.setTelefono(request.getTelefono());
         gimnasio.setEmail(request.getEmail());
-        gimnasio.setCodigo_gym(request.getCodigo_gym());
+        gimnasio.setCodigo_gym(request.getCodigoGym());
 
         Gimnasio actualizado = gimnasioRepository.save(gimnasio);
 

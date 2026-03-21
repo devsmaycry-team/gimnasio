@@ -5,17 +5,17 @@ public class GimnasioRequest {
     private String direccion;
     private String telefono;
     private String email;
-    private String codigo_gym;
+    private String codigoGym;
     
     public GimnasioRequest() {
     }
     
-    public GimnasioRequest(String nombre, String direccion, String telefono, String email, String codigo_gym) {
+    public GimnasioRequest(String nombre, String direccion, String telefono, String email, String codigoGym) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
         this.email = email;
-        this.codigo_gym = codigo_gym;
+        this.codigoGym = codigoGym;
     }
     public String getNombre() {
         return nombre;
@@ -41,11 +41,13 @@ public class GimnasioRequest {
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getCodigo_gym() {
-        return codigo_gym;
+
+    public String getCodigoGym() {
+        return codigoGym;
     }
-    public void setCodigo_gym(String codigo_gym) {
-        this.codigo_gym = codigo_gym;
+
+    public void setCodigoGym(String codigoGym) {
+        this.codigoGym = codigoGym;
     }
 
     
