@@ -11,5 +11,6 @@ public interface SocioService {
     SocioResponse guardar(SocioRequest producto);
     void eliminar(Long id);
     SocioResponse editar(Long id, SocioRequest dto);
+    public List<SocioResponse> buscarPorGimnasio(Long id);
 
 }

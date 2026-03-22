@@ -90,6 +90,14 @@ public class SocioServiceImplementation implements SocioService {
         return mapToResponse(actualizado);
     }
 
+    @Override
+        public List<SocioResponse> buscarPorGimnasio(Long id){
+            return socioRepository.findByGimnasioId(id)
+                    .stream()
+                    .map(this::mapToResponse)
+                    .collect(Collectors.toList());
+    }
+
     private SocioResponse mapToResponse(Socio socio) {
         return new SocioResponse(
                 socio.getId(),
@@ -104,4 +112,5 @@ public class SocioServiceImplementation implements SocioService {
                 socio.getGimnasio() != null ? socio.getGimnasio().getId() : null
         );
     }
+  
 }

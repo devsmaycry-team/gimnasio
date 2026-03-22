@@ -21,25 +21,24 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
     
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/todos")
     public List<Usuario> obtenerTodos(){
         return usuarioService.obtenerTodos();
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+
     @GetMapping("/buscar/{id}")
     public Usuario buscarPorId(@PathVariable Long id) {
         return usuarioService.obtenerPorId(id);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+
     @PostMapping("/crear")
     public Usuario crear(@RequestBody Usuario usuario) {
         return usuarioService.guardar(usuario);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+
     @DeleteMapping("/borrar/{id}")
     public void eliminar(@PathVariable Long id) {
         usuarioService.eliminar(id);
