@@ -4,6 +4,9 @@ import java.util.List;
 
 public class SocioResponse {
     private Long id;
+    private String nombre;
+    private String apellido;
+    private String gimnasioAsociado;
     private List<MedicionesResponse> mediciones;
     private List<MembresiaResponse> membresias;
     private List<PagosResponse> pagos;
@@ -18,7 +21,7 @@ public class SocioResponse {
     public SocioResponse(Long id, List<MedicionesResponse> mediciones, List<MembresiaResponse> membresias,
             List<PagosResponse> pagos, List<AsistenciaResponse> asistencias,
             List<InscripcionClasesResponse> inscripcionClases, Long usuario_id, Long numero_socio,
-            String observacionMedica, Long gimnasio_id) {
+            String observacionMedica, Long gimnasio_id, String nombre, String apellido, String gimnasio) {
         this.id = id;
         this.mediciones = mediciones;
         this.membresias = membresias;
@@ -29,6 +32,9 @@ public class SocioResponse {
         this.numero_socio = numero_socio;
         this.observacionMedica = observacionMedica;
         this.gimnasio_id = gimnasio_id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.gimnasioAsociado=gimnasio;
     }
     public Long getId() {
         return id;
@@ -36,6 +42,7 @@ public class SocioResponse {
     public void setId(Long id) {
         this.id = id;
     }
+    
     
     public List<MedicionesResponse> getMediciones() {
         return mediciones;
@@ -90,6 +97,24 @@ public class SocioResponse {
     }
     public void setGimnasio_id(Long gimnasio_id) {
         this.gimnasio_id = gimnasio_id;
+    }
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public String getApellido() {
+        return apellido;
+    }
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+    public String getGimnasioAsociado() {
+        return gimnasioAsociado;
+    }
+    public void setGimnasioAsociado(String gimnasioAsociado) {
+        this.gimnasioAsociado = gimnasioAsociado;
     }
     
 }

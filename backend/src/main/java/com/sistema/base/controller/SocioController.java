@@ -33,7 +33,7 @@ public class SocioController {
     }
 
     // Obtener por gym
-    @GetMapping("/gimnasio/{id}")
+    @GetMapping("/findbygym/{id}")
     public ResponseEntity<List<SocioResponse>> obtenerPorgimnasio(@PathVariable Long id) {
         return ResponseEntity.ok(socioService.buscarPorGimnasio(id));
     }

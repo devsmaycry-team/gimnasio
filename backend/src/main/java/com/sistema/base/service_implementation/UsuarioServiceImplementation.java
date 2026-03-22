@@ -3,6 +3,7 @@ package com.sistema.base.service_implementation;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -10,7 +11,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.sistema.base.DTO.UserResponseDTO;
+import com.sistema.base.DTO.Response.SocioResponse;
+import com.sistema.base.DTO.Response.UsuarioResponse;
 import com.sistema.base.model.Persona;
+import com.sistema.base.model.Socio;
 import com.sistema.base.model.Usuario;
 import com.sistema.base.repository.PersonaRepository;
 import com.sistema.base.repository.UsuarioRepository;
@@ -32,8 +37,11 @@ public class UsuarioServiceImplementation implements UsuarioService {
     private JavaMailSender mailSender;
 
     @Override
-    public List<Usuario> obtenerTodos() {
-        return userRepository.findAll();
+    public List<UsuarioResponse> obtenerTodos() {
+        return userRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -157,5 +165,21 @@ public class UsuarioServiceImplementation implements UsuarioService {
     public Usuario buscarPorCorreo(String correo) {
         return userRepository.findByCorreo(correo)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
+
+    private UsuarioResponse mapToResponse(Usuario usuario) {
+        String nombre = null;
+        String apellido = null;
+        if (usuario.getPersona() != null) {
+            nombre = usuario.getPersona().getNombre();
+            apellido = usuario.getPersona().getApellido();
+        }
+        return new UsuarioResponse(
+                usuario.getId(),
+                usuario.getCorreo(),
+                usuario.getActivo(),
+                nombre,
+                apellido
+        );
     }
 }

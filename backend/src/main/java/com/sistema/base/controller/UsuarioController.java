@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sistema.base.DTO.Response.UsuarioResponse;
 import com.sistema.base.model.Usuario;
 import com.sistema.base.service.UsuarioService;
 
@@ -22,7 +23,7 @@ public class UsuarioController {
     private UsuarioService usuarioService;
     
     @GetMapping("/todos")
-    public List<Usuario> obtenerTodos(){
+    public List<UsuarioResponse> obtenerTodos(){
         return usuarioService.obtenerTodos();
     }
 

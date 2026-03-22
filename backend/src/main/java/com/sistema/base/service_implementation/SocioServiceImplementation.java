@@ -99,17 +99,29 @@ public class SocioServiceImplementation implements SocioService {
     }
 
     private SocioResponse mapToResponse(Socio socio) {
+
+        String nombre = null;
+        String apellido = null;
+
+        if (socio.getUsuario() != null && socio.getUsuario().getPersona() != null) {
+            nombre = socio.getUsuario().getPersona().getNombre();
+            apellido = socio.getUsuario().getPersona().getApellido();
+        }
+
         return new SocioResponse(
                 socio.getId(),
-                null, // mediciones
-                null, // membresias
-                null, // pagos
-                null, // asistencias
-                null, // inscripciones
+                null,
+                null,
+                null,
+                null,
+                null,
                 socio.getUsuario() != null ? socio.getUsuario().getId() : null,
                 socio.getNumero_socio(),
                 socio.getObservacionMedica(),
-                socio.getGimnasio() != null ? socio.getGimnasio().getId() : null
+                socio.getGimnasio() != null ? socio.getGimnasio().getId() : null,
+                nombre,
+                apellido,
+                socio.getGimnasio().getNombre()
         );
     }
   
