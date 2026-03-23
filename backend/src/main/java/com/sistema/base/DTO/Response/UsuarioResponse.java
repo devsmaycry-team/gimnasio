@@ -7,7 +7,6 @@ public class UsuarioResponse {
     private Boolean activo;
     private String nombre;
     private String apellido;
-
     public UsuarioResponse() {}
 
     public UsuarioResponse(Long id, String correo, Boolean activo, String nombre, String apellido) {
