@@ -1,5 +1,7 @@
 package com.sistema.base.DTO.Response;
 
+import java.util.List;
+
 public class UsuarioResponse {
 
     private Long id;
@@ -7,14 +9,16 @@ public class UsuarioResponse {
     private Boolean activo;
     private String nombre;
     private String apellido;
+    private List<String> roles;
     public UsuarioResponse() {}
 
-    public UsuarioResponse(Long id, String correo, Boolean activo, String nombre, String apellido) {
+    public UsuarioResponse(Long id, String correo, Boolean activo, String nombre, String apellido, List<String> roles) {
         this.id = id;
         this.correo = correo;
         this.activo = activo;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -56,4 +60,13 @@ public class UsuarioResponse {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+    
 }

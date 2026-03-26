@@ -1,6 +1,7 @@
 package com.sistema.base.service_implementation;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -16,9 +17,12 @@ import com.sistema.base.DTO.Response.SocioResponse;
 import com.sistema.base.DTO.Response.UsuarioResponse;
 import com.sistema.base.model.Persona;
 import com.sistema.base.model.Socio;
+import com.sistema.base.model.UserRol;
 import com.sistema.base.model.Usuario;
 import com.sistema.base.repository.PersonaRepository;
+import com.sistema.base.repository.SocioRepository;
 import com.sistema.base.repository.UsuarioRepository;
+import com.sistema.base.repository.UsuarioRolRepository;
 import com.sistema.base.service.UsuarioService;
 
 @Service
@@ -35,6 +39,24 @@ public class UsuarioServiceImplementation implements UsuarioService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private SocioRepository socioRepository;
+
+    @Autowired
+    private UsuarioRolRepository usuarioRolRepository;
+
+    public List<UsuarioResponse> obtenerUsuariosPorGimnasio(Long gimnasioId) {
+        List<Socio> socios = socioRepository.findByGimnasioId(gimnasioId);
+        List<UsuarioResponse> usuarios = new ArrayList<>();
+        for (Socio socio : socios) {
+            Usuario usuario = socio.getUsuario();
+            usuarios.add(
+                    mapToResponse(usuario)
+            );
+        }
+        return usuarios;
+    }
 
     @Override
     public List<UsuarioResponse> obtenerTodos() {
@@ -174,12 +196,20 @@ public class UsuarioServiceImplementation implements UsuarioService {
             nombre = usuario.getPersona().getNombre();
             apellido = usuario.getPersona().getApellido();
         }
+        List<String> roles = new ArrayList<>();
+        
+        if (usuario.getUserRols() != null) {
+            roles = usuario.getUserRols().stream()
+                    .map(userRol -> userRol.getRol().getCargo())
+                    .collect(Collectors.toList());
+        }
         return new UsuarioResponse(
                 usuario.getId(),
                 usuario.getCorreo(),
                 usuario.getActivo(),
                 nombre,
-                apellido
+                apellido,
+                roles
         );
     }
 }

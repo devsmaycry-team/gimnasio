@@ -16,11 +16,11 @@ public class UserRol {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore                    // ← no serializar usuario (evita loop)
+    @JsonIgnore                  
     public Usuario user;
 
     @ManyToOne
-    @JoinColumn(name = "rol_id")   // ← sin anotación, ahora sí viene en el JSON
+    @JoinColumn(name = "rol_id")   
     public Rol rol;
 
     public Long getId() { return id; }

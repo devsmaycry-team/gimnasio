@@ -15,4 +15,5 @@ public interface UsuarioService {
     boolean verificarUsuario(String token);
     void solicitarResetPassword(String correo);
     boolean resetearPassword(String token, String nuevaPassword);
+    public List<UsuarioResponse> obtenerUsuariosPorGimnasio(Long gimnasioId);
 }
