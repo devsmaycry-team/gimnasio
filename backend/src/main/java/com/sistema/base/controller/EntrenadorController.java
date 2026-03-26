@@ -33,6 +33,14 @@ public class EntrenadorController {
     }
 
     // =========================
+    // GET BY GYM ID
+    // =========================
+    @GetMapping("/gimnasio/{id}")
+    public List<EntrenadorResponse> obtenerPorGimnasio(@PathVariable Long id) {
+        return entrenadorService.obtenerPorGimnasio(id);
+    }
+
+    // =========================
     // CREATE
     // =========================
     @PostMapping

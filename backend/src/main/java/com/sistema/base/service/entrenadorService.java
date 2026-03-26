@@ -8,6 +8,7 @@ import com.sistema.base.DTO.Response.EntrenadorResponse;
 public interface EntrenadorService {
 
     List<EntrenadorResponse> obtenerTodos();
+    public List<EntrenadorResponse> obtenerPorGimnasio(Long id);
 
     EntrenadorResponse obtenerPorId(Long id);
 

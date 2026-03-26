@@ -6,20 +6,23 @@ import java.util.List;
 public class EntrenadorResponse {
     private Long id;
     private Long usuario_id;
+    private String nombreUsuario;
     private String especialidad;
     private String matricula;
     private List<RutinaResponse> rutinas;
     private Long gimnasio_id;
+
     public EntrenadorResponse() {
     }
     public EntrenadorResponse(Long id, Long usuario_id, String especialidad, String matricula,
-            List<RutinaResponse> rutinas, Long gimnasio_id) {
+            List<RutinaResponse> rutinas, Long gimnasio_id, String nombreUsuario) {
         this.id = id;
         this.usuario_id = usuario_id;
         this.especialidad = especialidad;
         this.matricula = matricula;
         this.rutinas = rutinas;
         this.gimnasio_id = gimnasio_id;
+        this.nombreUsuario = nombreUsuario;
     }
     public Long getId() {
         return id;
@@ -34,6 +37,7 @@ public class EntrenadorResponse {
     public void setUsuario_id(Long usuario_id) {
         this.usuario_id = usuario_id;
     }
+    
     public String getEspecialidad() {
         return especialidad;
     }
@@ -58,6 +62,11 @@ public class EntrenadorResponse {
     public void setGimnasio_id(Long gimnasio_id) {
         this.gimnasio_id = gimnasio_id;
     }
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
 
-    
 }

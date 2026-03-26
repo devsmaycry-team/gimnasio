@@ -41,6 +41,17 @@ public class EntrenadorServiceImplementation implements EntrenadorService {
     }
 
     // =========================
+    // GET BY GYM
+    // =========================
+    @Override
+    public List<EntrenadorResponse> obtenerPorGimnasio(Long id) {
+        return entrenadorRepository.findByGimnasioId(id)
+                .stream()
+                .map(this::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // =========================
     // GET BY ID
     // =========================
     @Override
@@ -111,18 +122,15 @@ public class EntrenadorServiceImplementation implements EntrenadorService {
     // MAPPER PRINCIPAL
     // =========================
     private EntrenadorResponse toResponseDto(Entrenador entrenador) {
-
         EntrenadorResponse dto = new EntrenadorResponse();
-
         dto.setId(entrenador.getId());
-
         dto.setUsuario_id(
                 entrenador.getUsuario() != null ? entrenador.getUsuario().getId() : null
         );
         dto.setGimnasio_id(entrenador.getGimnasio().getId());
+        dto.setNombreUsuario(entrenador.getUsuario().getPersona().getNombre());
         dto.setEspecialidad(entrenador.getEspecialidad());
         dto.setMatricula(entrenador.getMatricula());
-
         // Rutinas
         if (entrenador.getRutinas() != null) {
             dto.setRutinas(
